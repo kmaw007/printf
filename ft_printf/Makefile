@@ -1,37 +1,42 @@
-#Variables
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: kwafi <kwafi@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/10/04 11:36:32 by kwafi             #+#    #+#              #
+#    Updated: 2025/10/04 11:36:32 by kwafi            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-Name = libftprintf.a
-INCLUDE = include 
-SRC_DIR = src/
-OBJ_DIR = obj/
+
+NAME = libftprintf.a
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 AR = ar rcs
 
-SRC_FILES	=	ft_printf ft_printf_utils ft_print_ptr ft_print_unsigned ft_print_hex
+SRCS = ft_printf.c ft_printf_utilities.c ft_printf_str.c ft_printf_num.c \
+       ft_print_hex.c ft_print_ptr.c ft_print_unsigned.c
+OBJ_FILES	= 	$(SRCS:.c=.o)
 
 
-SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
-OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
-
-
-.PHONY:		all clean fclean re
 all:		$(NAME)
 
-$(NAME):	$(OBJ_DIR) $(OBJ)
-			$(AR) $@ $^
+$(NAME):	$(OBJ_FILES)
+			$(AR) $(NAME) $(OBJ_FILES)
 
-$(OBJ_DIR):
-			mkdir -p $(OBJ_DIR)
-
-$(OBJ_DIR)%.o:	$(SRC_DIR)%.c
-			$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-			$(RM) -r $(OBJ_DIR)
+			$(RM) $(OBJ_FILES)
 
 fclean:		clean	
 			$(RM) $(NAME)	
 
 re:			fclean all		
+
+
+.PHONY:		all clean fclean re
