@@ -6,7 +6,7 @@
 /*   By: kwafi <kwafi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 12:33:15 by kwafi             #+#    #+#             */
-/*   Updated: 2025/10/05 12:51:46 by kwafi            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:13:48 by kwafi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,23 @@ void	ft_putstr(char *str)
 
 int	ft_printstr(char *str)
 {
-	if (str == NULL)
+	int	i;
+	int	result;
+
+	if (!str)
 	{
-		ft_putstr("(null)");
-		return (6);
+		result = write(1, "(null)", 6);
+		return (result);
 	}
-	ft_putstr(str);
-	return (ft_strlen(str));
+	i = 0;
+	while (str[i])
+	{
+		result = write(1, &str[i], 1);
+		if (result == -1)
+			return (-1);
+		i++;
+	}
+	return (i);
 }
 
 size_t	ft_strlen(const char *str)

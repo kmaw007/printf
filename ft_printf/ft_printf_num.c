@@ -6,7 +6,7 @@
 /*   By: kwafi <kwafi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 12:33:15 by kwafi             #+#    #+#             */
-/*   Updated: 2025/10/05 16:57:03 by kwafi            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:26:34 by kwafi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,41 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
+static int	put_number(long n)
+{
+	int		result;
+	char	c;
+
+	if (n >= 10)
+		if (put_number(n / 10) == -1)
+			return (-1);
+	c = (n % 10) + '0';
+	result = write(1, &c, 1);
+	return (result);
+}
+
+static int	handle_negative(int n, int *len)
+{
+	*len = 1;
+	if (write(1, "-", 1) == -1)
+		return (-1);
+	if (n == -2147483648)
+		return (put_number(2147483648L));
+	return (put_number(-((long)n)));
+}
+
 int	ft_printnbr(int n)
 {
-	char	*num;
-	int		len;
+	int	len;
 
-	num = ft_itoa(n);
-	if (!num)
-		return (0);
-	len = ft_printstr(num);
-	free(num);
-	return (len);
+	len = 0;
+	if (n < 0)
+		return (handle_negative(n, &len));
+	if (n == 0)
+	{
+		if (write(1, "0", 1) == -1)
+			return (-1);
+		return (1);
+	}
+	return (put_number(n));
 }

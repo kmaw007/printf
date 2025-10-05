@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kwafi <kwafi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/05 12:54:57 by kwafi             #+#    #+#             */
-/*   Updated: 2025/10/05 12:54:57 by kwafi            ###   ########.fr       */
+/*   Created: 2025/10/05 17:13:07 by kwafi             #+#    #+#             */
+/*   Updated: 2025/10/05 17:13:07 by kwafi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,23 @@ void	ft_put_hex(unsigned int num, const char format)
 
 int	ft_print_hex(unsigned int num, const char format)
 {
+	int		result;
 	char	*hex;
-	int		print_length;
 
-	print_length = 0;
 	if (format == 'x')
 		hex = "0123456789abcdef";
 	else
 		hex = "0123456789ABCDEF";
 	if (num >= 16)
-		print_length += ft_print_hex(num / 16, format);
-	print_length += ft_printchar(hex[num % 16]);
-	return (print_length);
+	{
+		result = ft_print_hex(num / 16, format);
+		if (result == -1)
+			return (-1);
+		result += ft_printchar(hex[num % 16]);
+		if (result == -1)
+			return (-1);
+		return (result);
+	}
+	result = ft_printchar(hex[num % 16]);
+	return (result);
 }

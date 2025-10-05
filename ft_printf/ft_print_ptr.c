@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kwafi <kwafi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/05 12:55:20 by kwafi             #+#    #+#             */
-/*   Updated: 2025/10/05 12:55:20 by kwafi            ###   ########.fr       */
+/*   Created: 2025/10/05 17:14:33 by kwafi             #+#    #+#             */
+/*   Updated: 2025/10/05 17:14:33 by kwafi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,23 @@ int	ft_put_ptr(uintptr_t num)
 
 int	ft_print_ptr(unsigned long long ptr)
 {
-	int	print_length;
+	int	result;
+	int	total;
 
-	print_length = 0;
-	print_length += write(1, "0x", 2);
+	total = 0;
+	result = write(1, "0x", 2);
+	if (result == -1)
+		return (-1);
+	total += result;
 	if (ptr == 0)
-		print_length += write(1, "0", 1);
-	else
-		print_length += ft_put_ptr(ptr);
-	return (print_length);
+	{
+		result = write(1, "0", 1);
+		if (result == -1)
+			return (-1);
+		return (total + result);
+	}
+	result = ft_put_ptr(ptr);
+	if (result == -1)
+		return (-1);
+	return (total + result);
 }
